@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dear Future Juani</title>
+<meta name="description" content="Una máquina del tiempo personal — una guía para que Juani se encuentre a sí mismo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- capas de fondo (desactivadas en el visual "Iconic" actual, ver style.css) -->
+<canvas id="stars"></canvas>
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+
+<!-- barra fija arriba, estilo "Iconic": negro sólido -->
+<div class="term-titlebar">
+  <span class="term-path mono" id="term-path">Dear Future Juani</span>
+  <span class="term-status mono">
+    <span id="cloud-status" title="Copia de seguridad en la nube">☁️</span>
+  </span>
+</div>
+
+<!-- aviso que aparece cuando se crea una copia de seguridad nueva -->
+<div class="cloud-banner mono" id="cloud-banner" hidden>
+  <span id="cloud-banner-text"></span>
+  <button id="cloud-banner-close" aria-label="Cerrar">✕</button>
+</div>
+
+<div id="app">
+
+  <!-- ============ PANTALLA 0: PORTADA ============ -->
+  <section class="screen" id="screen-intro">
+    <div class="console-frame narrow center-content">
+      <span class="brand mono intro-brand">De&nbsp;Sarang&nbsp;do&nbsp;presente,&nbsp;para</span>
+
+      <div class="video-frame">
+        <video src="video/intro.mp4" controls playsinline></video>
+      </div>
+
+      <button class="btn btn-primary" id="btn-go-dashboard">IR AL PANEL →</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 1: PANEL PRINCIPAL ============ -->
+  <section class="screen" id="screen-dashboard" hidden>
+    <header class="topbar">
+      <span class="brand mono">De&nbsp;Sarang&nbsp;do&nbsp;presente,&nbsp;para</span>
+      <span class="topbar-actions">
+        <button class="icon-btn mono" id="btn-music" title="Música del panel">🎵</button>
+        <button class="icon-btn mono" id="btn-sound" title="Sonido">🔈</button>
+      </span>
+    </header>
+
+    <div class="console-frame wide">
+      <h1 class="serif title-main">DEAR FUTURE JUANI</h1>
+      <p class="subtle">¿Qué querés hacer?</p>
+
+      <nav class="menu-grid">
+        <button class="menu-card" data-nav="letters">
+          <span class="menu-cmd mono">$ cat cartas/*.txt</span>
+          <span class="menu-icon">✉️</span>
+          <span class="menu-title serif">Cartas a Través del Tiempo</span>
+          <span class="menu-desc">Una conversación entre quien sos hoy y quien vas a convertirte.</span>
+        </button>
+        <button class="menu-card" data-nav="rituals">
+          <span class="menu-cmd mono">$ ./rituales.sh</span>
+          <span class="menu-icon">🌍</span>
+          <span class="menu-title serif">Rituales</span>
+          <span class="menu-desc">Pequeñas experiencias para vivir durante el viaje.</span>
+        </button>
+        <button class="menu-card" data-nav="questions">
+          <span class="menu-cmd mono">$ ./preguntas.sh</span>
+          <span class="menu-icon">💭</span>
+          <span class="menu-title serif">Preguntas</span>
+          <span class="menu-desc">Reflexiones sobre la vida y la nueva ciudad.</span>
+        </button>
+        <button class="menu-card" data-nav="map">
+          <span class="menu-cmd mono">$ ./mapa.sh</span>
+          <span class="menu-icon">📍</span>
+          <span class="menu-title serif">El Mapa</span>
+          <span class="menu-desc">Un mapa emocional de tu viaje.</span>
+        </button>
+        <button class="menu-card" data-nav="playlist">
+          <span class="menu-cmd mono">$ play playlist.m3u</span>
+          <span class="menu-icon">🎧</span>
+          <span class="menu-title serif">Playlist</span>
+          <span class="menu-desc">La banda de sonido de este viaje.</span>
+        </button>
+        <button class="menu-card muted" data-nav="restricted">
+          <span class="menu-cmd mono">$ sudo cat restringido.log</span>
+          <span class="menu-icon">🌧</span>
+          <span class="menu-title serif redacted">████████</span>
+          <span class="menu-desc">Hay un mensaje acá. Esperamos que tardes en necesitarlo.</span>
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 2: CARTAS A TRAVÉS DEL TIEMPO ============ -->
+  <section class="screen" id="screen-letters" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">✉️ CARTAS&nbsp;A&nbsp;TRAVÉS&nbsp;DEL&nbsp;TIEMPO</span>
+    </header>
+
+    <div class="console-frame wide" id="letters-hub-view">
+      <p class="letters-first-note mono" id="letters-first-note" hidden></p>
+
+      <p class="eyebrow">✉️ CARTAS A TRAVÉS DEL TIEMPO</p>
+      <h2 class="serif">Cartas a través del tiempo</h2>
+      <p class="poetic">
+        Estás a punto de empezar un viaje.<br><br>
+        Pero algunos de los mensajes más importantes de este viaje no necesitan ser enviados a otra persona.<br><br>
+        Pueden ser enviados a vos mismo.
+      </p>
+      <p class="subtle">
+        Escribile a quien vas a ser dentro de una semana. Dentro de algunos meses. Dentro de un año.<br>
+        Dejá que el vos de hoy converse con el vos del futuro — a través de FutureMe.
+      </p>
+
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn btn-primary" id="btn-write-letter">✍️ ESCRIBIR UNA CARTA</button>
+      </div>
+
+      <hr class="divider">
+
+      <p class="eyebrow">💌 CARTAS EN CAMINO</p>
+      <h3 class="serif">Ya te escribí.</h3>
+      <p class="subtle">No van a aparecer acá en el sitio — llegan directo a tu casilla de e-mail, a través de FutureMe, en estas fechas:</p>
+      <div class="email-letters-grid" id="email-letters-grid"></div>
+
+      <hr class="divider">
+
+      <h3 class="serif">La línea del tiempo</h3>
+      <p class="subtle">Y, si querés, escribite tu propia carta para cada uno de estos momentos también.</p>
+      <div class="timeline" id="letters-timeline"></div>
+
+      <p class="return-note mono" style="margin-top:26px;">
+        <button class="icon-btn mono" data-nav="dashboard">→ ir al panel</button>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 3: COMPOSITOR DE CARTAS ============ -->
+  <section class="screen" id="screen-compose" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono" id="back-compose" data-nav="letters">← VOLVER</button>
+      <span class="brand mono">✍️ NUEVA&nbsp;CARTA</span>
+    </header>
+
+    <div class="console-frame narrow" id="compose-privacy-view">
+      <p class="eyebrow">🔒 PRIVACIDAD</p>
+      <h2 class="serif">Tus cartas son personales.</h2>
+      <p class="letter-body serif" style="font-size:1.05rem;">Para preservar la privacidad de estos mensajes, no quedan guardados acá en el sitio.
+
+El envío se hace a través de FutureMe, un servicio dedicado a entregar cartas en el futuro — es él quien se encarga de guardar y entregar tu carta en la fecha elegida.
+
+Nada de lo que escribas acá se guarda, se copia ni se envía a ningún otro lado más que a FutureMe.</p>
+      <button class="btn btn-primary" id="btn-compose-continue">ENTENDIDO, CONTINUAR</button>
+    </div>
+
+    <div class="console-frame narrow" id="compose-form-view" hidden>
+      <p class="eyebrow">PARA</p>
+      <h2 class="serif" style="margin-bottom:22px;">Mi yo del futuro</h2>
+
+      <p class="eyebrow">FECHA DE ENTREGA SUGERIDA</p>
+      <div class="chip-row" id="preset-chips"></div>
+      <div class="field-block">
+        <label>o elegí otra fecha</label>
+        <input type="date" id="compose-date" class="date-input">
+      </div>
+      <p class="compose-prompt poetic" id="compose-prompt" hidden></p>
+
+      <div class="field-block" style="margin-top:18px;">
+        <label>Querido yo...</label>
+        <textarea id="compose-text" rows="10" placeholder="Empezá a escribir..."></textarea>
+      </div>
+
+      <button class="btn btn-primary" id="btn-compose-send">📮 ENVIAR A TRAVÉS DE FUTUREME</button>
+    </div>
+
+    <div class="console-frame narrow center-content" id="compose-sent-view" hidden>
+      <p class="eyebrow">✅ LISTA</p>
+      <h2 class="serif">Tu carta está lista.</h2>
+      <p class="poetic">Ahora vamos a enviarla a través de FutureMe, donde va a poder guardarse y entregarse en la fecha elegida.<br><br>Tu texto no va a quedar guardado en este sitio.</p>
+      <p class="subtle" id="compose-clipboard-status"></p>
+      <button class="btn btn-primary" id="btn-goto-futureme">CONTINUAR A FUTUREME →</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 4: RITUALES ============ -->
+  <section class="screen" id="screen-rituals" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">🌍 RITUALES</span>
+    </header>
+    <div class="console-frame wide" id="rituals-list-view">
+      <h2 class="serif">No son tareas.</h2>
+      <p class="subtle">Son rituales. La propuesta no es cumplir obligaciones — es prestar atención.</p>
+      <div class="category-tabs" id="ritual-tabs"></div>
+      <div class="ritual-grid" id="ritual-grid"></div>
+    </div>
+    <div class="console-frame wide" id="ritual-detail-view" hidden></div>
+  </section>
+
+  <!-- ============ PANTALLA 5: PREGUNTAS ============ -->
+  <section class="screen" id="screen-questions" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">💭 PREGUNTAS&nbsp;QUE&nbsp;NADIE&nbsp;HACE</span>
+    </header>
+    <div class="console-frame narrow center-content">
+      <p class="eyebrow">🌙</p>
+      <p class="serif question-display" id="question-display">Tocá el botón para recibir una pregunta.</p>
+      <textarea id="question-answer" placeholder="Tu respuesta queda solo para vos, guardada acá..." rows="4"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-save-question">💾 GUARDAR RESPUESTA</button>
+        <button class="btn btn-primary" id="btn-new-question">🎲 HACEME UNA PREGUNTA</button>
+      </div>
+
+      <hr class="divider">
+
+      <h3 class="serif">Lo que ya respondiste</h3>
+      <div class="qa-history" id="qa-history"></div>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 6: EL MAPA ============ -->
+  <section class="screen" id="screen-map" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">📍 ¿DÓNDE&nbsp;ESTÁS?</span>
+    </header>
+    <div class="console-frame wide">
+      <div class="route-strip">
+        <span class="mono route-point">🇦🇷 ARGENTINA</span>
+        <span class="route-line"></span>
+        <span class="mono route-point">EUROPA 🇪🇺</span>
+      </div>
+      <p class="subtle">No es un mapa turístico. Cada marca es un recuerdo.</p>
+      <div class="pin-list" id="pin-list"></div>
+      <button class="btn btn-ghost" id="btn-add-pin">+ AGREGAR UN LUGAR</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 7: PLAYLIST ============ -->
+  <section class="screen" id="screen-playlist" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">🎧 PLAYLIST</span>
+    </header>
+    <div class="console-frame wide center-content">
+      <p class="eyebrow">$ play playlist.m3u</p>
+      <h2 class="serif">La banda de sonido de este viaje.</h2>
+      <div class="spotify-embed" id="spotify-embed-container"></div>
+      <p class="spotify-fallback">
+        <a class="mono" href="https://open.spotify.com/playlist/37i9dQZF1EJsHUNxyuJZHH" target="_blank" rel="noopener">▶ Abrir la playlist en Spotify ↗</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 8: ARCHIVO RESTRINGIDO ============ -->
+  <section class="screen" id="screen-restricted" hidden>
+    <header class="topbar">
+      <button class="icon-btn mono back-btn" data-nav="dashboard">← VOLVER</button>
+      <span class="brand mono">🌧 ARCHIVO&nbsp;RESTRINGIDO</span>
+    </header>
+    <div class="console-frame narrow center-content">
+      <p class="serif poetic restricted-text">
+        Tal vez hoy todo te parezca difícil.<br><br>
+        Tal vez estés cansado.<br><br>
+        Tal vez estés solo.<br><br>
+        Tal vez haya pasado algo que te hizo pensar<br>
+        que volver sería más fácil.<br><br>
+        Solo quería recordarte:<br><br>
+        no tenés que amar todos los días de este viaje.<br><br>
+        Algunos días existen solo para ser atravesados.<br><br>
+        Descansá. Respirá. Seguí un día más.<br><br>
+        Mañana puede parecer distinto.<br><br>
+        Y si necesitás desahogarte, o un poco de cariño, hablá con Sarang.
+      </p>
+      <button class="btn btn-ghost" id="btn-write-myself">✍️ ESCRIBIRME A MÍ MISMO</button>
+      <textarea id="restricted-note" rows="4" placeholder="..." hidden></textarea>
+
+      <div class="restricted-photo-frame">
+        <img src="images/archivo-restringido.png" alt="Una foto de recuerdo" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 9: FINAL (no se usa activamente hoy) ============ -->
+  <section class="screen" id="screen-final" hidden>
+    <div class="console-frame narrow center-content">
+      <p class="serif poetic final-text" id="final-text"></p>
+      <button class="btn btn-primary" id="btn-back-present" hidden>VOLVER AL PRESENTE</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- música que toca só enquanto o painel principal está aberto -->
+<audio id="panel-audio" src="audio/panel-tema.mp3" loop preload="none"></audio>
+
+<footer class="site-footer">
+  <p class="site-footer-line">Tu hogar es donde esté tu corazón.</p>
+  <p class="site-footer-sign mono">cyber sarang =^.^=</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
